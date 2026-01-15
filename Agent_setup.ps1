@@ -1,4 +1,4 @@
-# Function that write the current step
+# Function that writes the current step
 function step { 
     param([string]$Message)
     Write-Host "$Message" -ForegroundColor Cyan
@@ -25,7 +25,7 @@ Step "Downloading Sysmon"
 #Test if the sysmon url is available
 Try {
     if ((Invoke-WebRequest $sysmonurl -Method Head -UseBasicParsing).Statuscode -eq 200) {
-        Curl -o $dropLocation\sysmon.zip -s $sysmonurl
+        Curl -o $dropLocation\sysmon.zip -s -uri $sysmonurl
         Expand-Archive -LiteralPath $dropLocation\sysmon.zip -DestinationPath $dropLocation
     }
 }
@@ -38,7 +38,7 @@ Catch{
 Step "Downloading Sysmon Config"
 try {
     if ((Invoke-WebRequest $sysmonconfig -Method Head -UseBasicParsing).Statuscode -eq 200) {
-        Curl -o $dropLocation\sysmon.xml -s $sysmonconfig
+        Curl -o $dropLocation\sysmon.xml -s -uri $sysmonconfig
     }
     
 }
