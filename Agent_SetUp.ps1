@@ -2,14 +2,14 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 function Step {
-    param([Parameter(Manadatory)][string]$Message)
+    param([Parameter(Mandatory)][string]$Message)
     Write-Host "$Message" -ForegroundColor Cyan
 }
 
 function Download-File {
     param(
-        [Parameter(Manadatory)][string]$Url,
-        [Parameter(Manadatory)][string]$OutFile
+        [Parameter(Mandatory)][string]$Url,
+        [Parameter(Mandatory)][string]$OutFile
     )
 
     Step "Downloading: $([System.IO.Path]::GetFileName($OutFile))"
@@ -38,7 +38,7 @@ function Download-File {
 # Variables
 # =========================
 $dropLocation = "C:\temp\wazuh_agent"
-$sysmonUrl = "https://download.sysinterals.com/files/Sysmon.zip"
+$sysmonUrl = "https://download.sysinternals.com/files/Sysmon.zip"
 $sysmonConfig = "https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml"
 $sysmonZIP = Join-Path $dropLocation "Sysmon.zip"
 $sysmonXML = Join-Path $dropLocation "sysmon.xml"
@@ -64,7 +64,7 @@ Step "Expanding Sysmon.zip"
 Expand-Archive -LiteralPath $sysmonZIP -DestinationPath $dropLocation -Force
 
 # Locate Sysmon Exe from extracted contents
-$sysmonexe = Get-ChildItem -Path $dropLocation -Filter "Sysmon64.exe" -Recurse -File -ErrorAction SilentlyContinue | Select Object -First 1
+$sysmonexe = Get-ChildItem -Path $dropLocation -Filter "Sysmon64.exe" -Recurse -File -ErrorAction SilentlyContinue | Select-Object -First 1 
 
 if (-not $sysmonexe) {
     throw "Sysmon 64.exe is not found after extraction in $dropLocation"
@@ -74,6 +74,6 @@ if (-not $sysmonexe) {
 # Install Sysmon
 # =========================
 Step "Installing Sysmon (accepting Eula + applying config)"
-& $sysmonexe.FullName -accepteula -i $sysmonXML
+& $sysmonexe -accepteula -i $sysmonXML
 
 Step "Agent setup Complete"
