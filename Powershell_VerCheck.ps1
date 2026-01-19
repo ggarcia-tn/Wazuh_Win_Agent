@@ -3,11 +3,13 @@ $Posh5ScriptUrl = "https://raw.githubusercontent.com/ggarcia-tn/Wazuh_Win_Agent/
 $Posh7ScriptUrl = "https://raw.githubusercontent.com/ggarcia-tn/Wazuh_Win_Agent/refs/heads/main/Agent_setupPS7.ps1"
 
 if($PSVersionTable.PSVersion.Major -eq 5){
-Curl -o $dropLocation\sysmon.zip -s -uri $Posh5ScriptUrl
+    Write-Host "Downloading Agent Setup for PS Version 5"
+    Curl -o $dropLocation\sysmon.zip -s -uri $Posh5ScriptUrl
 }
 elseif($PSVersionTable.PSVersion.Major -eq 7){
-Curl -o $dropLocation\sysmon.zip -s -uri $Posh7ScriptUrl
+    Write-Host "Downloading Agent Setup for PS Version 7"
+    Curl -o $dropLocation\sysmon.zip -s -uri $Posh7ScriptUrl
 }
 else{
-Write-Host "Unable to determine PowerShell version. Exiting script."
+    Write-Host "Unable to determine PowerShell version. Exiting script."
 }
